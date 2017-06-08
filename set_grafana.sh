@@ -7,11 +7,11 @@ if [ -f /.grafana_configured ]; then
 fi
 
 echo "=> Configuring grafana"
-sed -i -e "s#<--INFLUXDB_URL-->#${INFLUXDB_URL}#g" \
-       -e "s/<--DATA_USER-->/${INFLUXDB_DATA_USER}/g" \
-       -e "s/<--DATA_PW-->/${INFLUXDB_DATA_PW}/g" \
-       -e "s/<--GRAFANA_USER-->/${INFLUXDB_GRAFANA_USER}/g" \
-       -e "s/<--GRAFANA_PW-->/${INFLUXDB_GRAFANA_PW}/g" /src/grafana/config.js
+# sed -i -e "s#<--INFLUXDB_URL-->#${INFLUXDB_URL}#g" \
+#        -e "s/<--DATA_USER-->/${INFLUXDB_DATA_USER}/g" \
+#        -e "s/<--DATA_PW-->/${INFLUXDB_DATA_PW}/g" \
+#        -e "s/<--GRAFANA_USER-->/${INFLUXDB_GRAFANA_USER}/g" \
+#        -e "s/<--GRAFANA_PW-->/${INFLUXDB_GRAFANA_PW}/g" /src/grafana/config.ini
     
 touch /.grafana_configured
 
@@ -25,4 +25,13 @@ echo "   InfluxDB USERNAME: ${INFLUXDB_GRAFANA_USER}"
 echo "   InfluxDB PASSWORD: ${INFLUXDB_GRAFANA_PW}"
 echo "   ** Please check your environment variables if you find something is misconfigured. **"
 echo "=> Done!"
+# echo "=> Grafana is installed under"
+# exec gosu grafana grafana-server                          \
+#      --homepath=/usr/share/grafana                        \
+#      --config=/etc/grafana/grafana.ini                    \
+#      cfg:default.log.mode="console"                       \
+#      cfg:default.paths.data="/var/lib/grafana"            \
+#      cfg:default.paths.logs="/var/log/grafana"            \
+#      cfg:default.paths.plugins="/var/lib/grafana/plugins" \
+#      "$@"
 exit 0
