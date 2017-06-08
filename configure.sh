@@ -2,11 +2,11 @@
 
 set -e
 
-if [ ! -f "/.grafana_configured" ]; then
-    /set_grafana.sh
+if [ ! -f "/.influxdb_configured" ]; then
+    /srv/set_influxdb.sh
 fi
 
-if [ ! -f "/.influxdb_configured" ]; then
-    /set_influxdb.sh
+if [ ! -f "/.grafana_configured" ]; then
+    /srv/set_grafana.sh
 fi
-exit 0
+

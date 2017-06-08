@@ -31,34 +31,34 @@ RUN curl -s -o /tmp/influxdb_latest_amd64.deb https://dl.influxdata.com/influxdb
 #   Configuration   #
 # ----------------- #
 
+# Env variables
+ENV		PRE_CREATE_DB ""
+ENV     INFLUXDB_HOST ""
+ENV     INFLUXDB_API_PORT ""
+ENV		INFLUXDB_URL ""
+ENV		INFLUXDB_ADMIN_USER ""
+ENV		INFLUXDB_ADMIN_PW ""
+ENV		INFLUXDB_GRAFANA_USER ""
+ENV		INFLUXDB_GRAFANA_PW ""
+ENV		ROOT_PW ""
+
+# Configure Influx and Grafana
+ADD		./configure.sh /srv/configure.sh
+
 # Configure InfluxDB
 ADD		influxdb/config.toml /etc/influxdb/config.toml 
 ADD		influxdb/run.sh /usr/local/bin/run_influxdb
 RUN     chmod 777 /usr/local/bin/run_influxdb
-# These two databases have to be created. These variables are used by set_influxdb.sh and set_grafana.sh
-ENV		PRE_CREATE_DB zeus_events events
-ENV		INFLUXDB_URL http://localhost:8086
-ENV		INFLUXDB_ADMIN_USER dashboard
-ENV		INFLUXDB_ADMIN_PW dashboard
-ENV     INFLUX_API_PORT 8086
-ENV		INFLUXDB_GRAFANA_USER grafana
-ENV		INFLUXDB_GRAFANA_PW grafana
-ENV		ROOT_PW toortoor
+ADD		./set_influxdb.sh /srv/set_influxdb.sh
 
 # Configure Grafana
 ADD		./grafana/config.ini /etc/grafana/config.ini
 ADD		grafana/run.sh /usr/local/bin/run_grafana
 RUN     chmod 777 /usr/local/bin/run_grafana
-# ADD		./grafana/config.js /src/grafana/config.js
-#ADD	./grafana/scripted.json /src/grafana/app/dashboards/default.json
+ADD		./set_grafana.sh /srv/set_grafana.sh
 
-ADD		./configure.sh /configure.sh
-ADD		./set_grafana.sh /set_grafana.sh
-ADD		./set_influxdb.sh /set_influxdb.sh
-RUN 	/configure.sh
 
-# Configure nginx and supervisord
-# ADD		./nginx/nginx.conf /etc/nginx/nginx.conf
+# Configure Supervisord
 ADD		./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 
@@ -82,4 +82,4 @@ EXPOSE 8084
 #   Run!   #
 # -------- #
 
-CMD	["/usr/bin/supervisord"]
+# CMD	["/usr/bin/supervisord"]
