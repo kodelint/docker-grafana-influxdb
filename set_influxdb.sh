@@ -13,10 +13,6 @@ else
    INFLUXDB_URL="http://${INFLUXDB_HOST}:${INFLUXDB_API_PORT}"
 fi
 
-echo "INFLUXDB_API_PORT: "${INFLUXDB_API_PORT}
-echo "INFLUXDB_HOST:" "${INFLUXDB_HOST}"
-echo "INFLUXDB_URL: "${INFLUXDB_URL}
-
 echo "=> About to create the following database: ${PRE_CREATE_DB}"
 if [ -f "/.influxdb_configured" ]; then
     echo "=> Database had been created before, skipping ..."
