@@ -54,12 +54,15 @@ ADD	./set_influxdb.sh /srv/set_influxdb.sh
 
 # Configure Grafana
 ADD	./grafana/config.ini /etc/grafana/config.ini
-ADD	grafana/run.sh /usr/local/bin/run_grafana
+ADD	./grafana/run.sh /usr/local/bin/run_grafana
 RUN chmod 777 /usr/local/bin/run_grafana
 ADD	./set_grafana.sh /srv/set_grafana.sh
+ADD ./setup_stats.sh /srv/setup_stats.sh
+
 
 # Make all runners executable
 RUN chmod 777 /usr/local/bin/run_*
+RUN chmod 777 /srv/*.sh
 
 # Configure Supervisord
 ADD	./supervisord.conf /etc/supervisor/conf.d/supervisord.conf

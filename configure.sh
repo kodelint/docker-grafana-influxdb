@@ -12,3 +12,8 @@ if [ ! -f "/.grafana_configured" ]; then
     /srv/set_grafana.sh
 fi
 
+if [ ! -f "/srv/stats/.datasource-added" ]; then
+    echo "Adding InfluxDB as datasource for Grafana"
+    /srv/setup_stats.sh
+fi
+
