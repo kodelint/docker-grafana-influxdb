@@ -22,7 +22,7 @@ reporting-disabled = false
 
 [meta]
   # Where the metadata/raft database is stored
-  dir = "/srv/influxdbfiles/meta"
+  dir = "/srv/stats/data/influxdb/meta"
 
   retention-autocreate = true
 
@@ -46,10 +46,10 @@ reporting-disabled = false
   # Controls if this node holds time series data shards in the cluster
   enabled = true
 
-  dir = "/srv/influxdbfiles/data"
+  dir = "/srv/stats/data/influxdb/data"
 
   # These are the WAL settings for the storage engine >= 0.9.3
-  wal-dir = "/srv/influxdbfiles/wal"
+  wal-dir = "/srv/stats/data/influxdb/wal"
   wal-logging-enabled = true
   data-logging-enabled = true
 
