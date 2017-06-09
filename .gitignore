@@ -1,0 +1,9 @@
+
+.vscode/
+
+# Pycharm
+.idea/
+tfc.iml
+
+# OSX
+.DS_Store

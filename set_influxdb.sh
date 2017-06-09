@@ -62,5 +62,7 @@ else
     fi
     touch "/.influxdb_configured"
 fi
-
+#stop influxDB
+echo "=> Stopping influxDB to start it under supervisord"
+ps aux|grep influxd | awk {'print $2'} | xargs kill -9
 exit 0
