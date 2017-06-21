@@ -13,21 +13,17 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN	apt-get -y update && apt-get -y upgrade && \
     apt-get -y install libfontconfig1 wget nginx-light supervisor curl python python-setuptools python-pip
 
-# Install Grafana to /src/grafana
-RUN	curl -s -o /tmp/grafana_${GRAFANA_VERSION}_amd64.deb https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_${GRAFANA_VERSION}_amd64.deb && \
-		dpkg -i /tmp/grafana_${GRAFANA_VERSION}_amd64.deb && \
-		rm /tmp/grafana_${GRAFANA_VERSION}_amd64.deb && \
-		rm -rf /var/lib/apt/lists/*
-
-RUN curl -L https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64 > /usr/sbin/gosu && \
-    chmod +x /usr/sbin/gosu
+    # Install Grafana to /src/grafana
+    RUN  mkdir -p src/grafana && cd src/grafana && \
+    	wget -nv https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz -O grafana.tar.gz && \
+    	tar xzf grafana.tar.gz --strip-components=1 && rm grafana.tar.gz
 
 # Install InfluxDB
 RUN curl -s -o /tmp/influxdb_latest_amd64.deb https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_amd64.deb && \
 		dpkg -i /tmp/influxdb_latest_amd64.deb && \
 		rm /tmp/influxdb_latest_amd64.deb && \
 		rm -rf /var/lib/apt/lists/*
- 
+
 # ----------------- #
 #   Configuration   #
 # ----------------- #
@@ -45,24 +41,22 @@ ENV	ROOT_PW ""
 ENV	RABBITMQ_NODE ""
 
 # Configure Influx and Grafana
-ADD	./configure.sh /srv/configure.sh
+ADD	./configure.sh /usr/local/bin/run_configure.sh
 
 # Configure InfluxDB
-ADD	influxdb/config.toml /etc/influxdb/config.toml 
+ADD	influxdb/config.toml /etc/influxdb/config.toml
 ADD	influxdb/run.sh /usr/local/bin/run_influxdb
-ADD	./set_influxdb.sh /srv/set_influxdb.sh
+ADD	./set_influxdb.sh /usr/local/bin/run_setup_influxdb.sh
 
 # Configure Grafana
-ADD	./grafana/config.ini /etc/grafana/config.ini
+ADD	./grafana/config.ini /src/grafana/conf/config.ini
 ADD	./grafana/run.sh /usr/local/bin/run_grafana
-RUN chmod 777 /usr/local/bin/run_grafana
-ADD	./set_grafana.sh /srv/set_grafana.sh
-ADD ./setup_stats.sh /srv/setup_stats.sh
+ADD	./set_grafana.sh /usr/local/bin/run_setup_grafana.sh
+ADD ./setup_stats.sh /usr/local/bin/run_setup_stats.sh
 
 
 # Make all runners executable
-RUN chmod 777 /usr/local/bin/run_*
-RUN chmod 777 /srv/*.sh
+RUN chmod 755 /usr/local/bin/run_*
 
 # Configure Supervisord
 ADD	./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -82,3 +76,9 @@ EXPOSE 8086
 
 # InfluxDB HTTPS API
 EXPOSE 8084
+
+# ---------------- #
+#   Run the setup  #
+# ---------------- #
+
+CMD bash -c "sh /usr/local/bin/run_configure.sh && /usr/bin/supervisord"

@@ -2,4 +2,4 @@
 
 docker rm grafana-influxdb
 docker rmi -f grafana_influxdb
-docker build -t grafana_influxdb:$1 .
+docker build -t grafana_influxdb .

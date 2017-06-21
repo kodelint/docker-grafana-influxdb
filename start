@@ -3,4 +3,4 @@
 docker stop grafana-influxdb
 docker rm grafana-influxdb
 
-docker run -d -v /etc/localtime:/etc/localtime:ro -p 3000:3000 -p 8083:8083 -p 8084:8084 -p 8086:8086 --name grafana-influxdb grafana_influxdb:0.2
+docker run -d -v /etc/localtime:/etc/localtime:ro -p 3000:3000 -p 8083:8083 -p 8084:8084 -p 8086:8086 --name grafana-influxdb grafana_influxdb

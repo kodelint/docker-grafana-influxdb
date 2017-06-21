@@ -2,11 +2,12 @@
 
 set -m
 
-exec gosu grafana grafana-server                          \
-     --homepath=/usr/share/grafana                        \
-     --config=/etc/grafana/grafana.ini                    \
-     cfg:default.log.mode="console"                       \
-     cfg:default.paths.data="/var/lib/grafana"            \
-     cfg:default.paths.logs="/var/log/grafana"            \
-     cfg:default.paths.plugins="/var/lib/grafana/plugins" \
+exec /src/grafana/bin/grafana-server                                  \
+     --homepath=/src/grafana                                          \
+     --config=/src/grafana/conf/config.ini                            \
+     cfg:default.paths.data="/srv/data/grafana/data/"                  \
+     cfg:default.paths.plugins="/srv/data/grafana/plugins"             \
+     cfg:default.dashboard.json.enabled=true                          \
+     cfg:default.dashboard.json.path="/srv/data/grafana/dashboards"   \
+     cfg:default.log.mode="console"                                   \
      "$@"

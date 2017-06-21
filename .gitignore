@@ -7,3 +7,6 @@ tfc.iml
 
 # OSX
 .DS_Store
+
+# Project related
+statsdata/
