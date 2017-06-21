@@ -4,7 +4,7 @@ docker-grafana-influxdb
 This image contains a sensible default configuration of InfluxDB and Grafana. It explicitly doesn't bundle an example dashboard.
 
 ### Versions ###
-Grafana: [4.3.1](https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_4.3.1_amd64.deb)  
+Grafana: [4.3.1](https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.3.1.linux-x64.tar.gz)  
 InfluxDB: [1.0.0](https://dl.influxdata.com/influxdb/releases/influxdb_1.2.4_amd64.deb)
 
 ### Using the Dashboard ###
@@ -15,6 +15,9 @@ Once your container is running all you need to do is open your browser pointing 
 
 The Dockerfile and supporting configuration files are available in this Github repository. This comes specially handy if you want to change any of the InfluxDB or Grafana settings, or simply if you want to know how the image was built.
 The repo also has `build`, `start` and `stop` scripts to make your workflow more pleasant.
+
+### Docker Compose ###
+You can do `docker-compose` as well to after `build`
 
 ### Configuring the settings  ###
 
@@ -36,4 +39,3 @@ To change ports, consider the following:
 
 #### Credits  
  * [Satyajit Roy](kodelint@gmail.com)
-
