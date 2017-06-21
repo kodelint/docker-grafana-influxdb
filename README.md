@@ -32,10 +32,10 @@ To start a container with your custom config: see `start` script.
 
 To change ports, consider the following:
 
-- `3000`: edit `Dockerfile, port for grafana and start script`.
-- `8083`: edit: `Dockerfile, influxDB/config.toml and start script`.
+- `3000`: edit `Dockerfile`, port for grafana and start script.
+- `8083`: edit: `Dockerfile`, `influxDB/config.toml` and start script.
 - `8084`: edit: to be announced.
-- `8086`: edit: `Dockerfile, influxDB/config.toml, grafana/config.ini, set_influxdb.sh and start script`.
+- `8086`: edit: `Dockerfile`, `influxDB/config.toml`, `grafana/config.ini`, `set_influxdb.sh` and start script.
 
 #### Credits  
  * [Satyajit Roy](kodelint@gmail.com)
