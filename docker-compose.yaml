@@ -1,0 +1,30 @@
+version: '2'
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.37.0/24
+services:
+    stats:
+      # Can be used with local images
+      # image: grafana_influxdb:latest
+      # or
+      # pull it from where ever you stored it
+      image: grafana_influxdb:latest
+      environment:
+        - PRE_CREATE_DB=events
+        - INFLUXDB_API_PORT=8086
+        - INFLUXDB_HOST=localhost
+        - INFLUXDB_ADMIN_USER=influxadmin
+        - INFLUXDB_ADMIN_PW=frPCeZjNUPQjqzVZLmC4EZnuCLves
+        - INFLUXDB_GRAFANA_USER=graphpolter
+        - INFLUXDB_GRAFANA_PW=dARpQoQHBpVRszjGFmvibCWYKjK3G
+        - INFLUXDB_URL=http://localhost:8086
+        - ROOT_PW=t00rt00r
+        - RABBITMQ_NODE=dev.zeus.fds.com
+      volumes:
+        - ./statsdata:/srv/data
+      ports:
+        - 3000:3000/tcp
+        - 8086:8086/tcp

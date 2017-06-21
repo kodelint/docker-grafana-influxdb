@@ -40,8 +40,8 @@ else
             PASS=${INFLUXDB_ADMIN_PW:-password}
             if [ -n "${INFLUXDB_ADMIN_USER}" ]; then
             echo "=> Creating admin user"
-            influx -host=${INFLUX_HOST} -port=${INFLUXDB_API_PORT} -execute="CREATE USER ${INFLUXDB_ADMIN_USER} WITH PASSWORD '${PASS}' WITH ALL PRIVILEGES"
-            influx -host=${INFLUX_HOST} -port=${INFLUXDB_API_PORT} -execute="CREATE USER ${INFLUXDB_GRAFANA_USER} WITH PASSWORD '${INFLUXDB_GRAFANA_PW}' WITH ALL PRIVILEGES"
+            influx -host=${INFLUXDB_HOST} -port=${INFLUXDB_API_PORT} -execute="CREATE USER ${INFLUXDB_ADMIN_USER} WITH PASSWORD '${PASS}' WITH ALL PRIVILEGES"
+            influx -host=${INFLUXDB_HOST} -port=${INFLUXDB_API_PORT} -execute="CREATE USER ${INFLUXDB_GRAFANA_USER} WITH PASSWORD '${INFLUXDB_GRAFANA_PW}' WITH ALL PRIVILEGES"
             for x in $arr
             do
                 echo "=> Creating database: ${x}"
@@ -57,9 +57,9 @@ else
             done
             fi
 
-            touch "/.pre_db_created"
+            touch "/srv/data/.pre_db_created"
         fi
     fi
-    touch "/.influxdb_configured"
+    touch "/srv/data/.influxdb_configured"
 fi
 exit 0
